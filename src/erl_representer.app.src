@@ -1,6 +1,6 @@
 {application, erl_representer,
  [{description, "An escript"},
-  {vsn, "0.1.0"},
+  {vsn, "dev"},
   {registered, []},
   {applications,
    [kernel,
