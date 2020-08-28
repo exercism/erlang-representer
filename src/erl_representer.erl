@@ -12,10 +12,10 @@
 %%====================================================================
 
 %% escript Entry point
-main([]) ->
+main([Slug, InPath, OutPath]) ->
     ok = application:load(?APP), %% We need to load the application to its keys
                                  %% available later on.
-    set_up_logger(2),
+    set_up_logger(filename:join(OutPath, "representation.out"), 2),
     ?LOG_ERROR(version()),
     Version = version(),
     io:format("Version: ~s~n", [Version]),
@@ -44,14 +44,20 @@ format_date(Date0) ->
     {Day, Time0} = lists:split(2, Date2),
     {Hour, Time1} = lists:split(2, Time0),
     {Minute, Seconds} = lists:split(2, Time1),
-    lists:flatten(io_lib:format("~s-~s-~sT~s:~s:~sZ", [Year, Month, Day, Hour, Minute, Seconds])).
+    lists:flatten(
+      io_lib:format(
+        "~s-~s-~sT~s:~s:~sZ",
+        [Year, Month, Day, Hour, Minute, Seconds])).
 
-set_up_logger(Verbosity) ->
+set_up_logger(LogFile, Verbosity) ->
     Level = case Verbosity of
                 0 -> notice;
                 1 -> info;
                 X when is_integer(X), X >= 2 -> debug
             end,
-    logger:add_handler(file_logger, logger_std_h, #{config => #{file => "foo.log"}}),
+    logger:add_handler(
+      file_logger,
+      logger_std_h,
+      #{config => #{file => LogFile}}),
     logger:update_primary_config(#{level => Level}),
-    io:format("~p~n", [logger:get_primary_config()]).
+    ?LOG_NOTICE("Logger initialized, writing to file '~s'", [LogFile]).
