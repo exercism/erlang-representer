@@ -16,10 +16,11 @@ main([Slug, InPath, OutPath]) ->
     ok = application:load(?APP), %% We need to load the application to its keys
                                  %% available later on.
     set_up_logger(filename:join(OutPath, "representation.out"), 2),
-    ?LOG_ERROR(version()),
-    Version = version(),
-    io:format("Version: ~s~n", [Version]),
-    timer:sleep(6000),
+    ?LOG_INFO("Representer Version: ~s", [version()]),
+    ?LOG_INFO(
+       "OTP-Version: ~s (compiled with ~p)",
+       [erlang:system_info(otp_release), ?OTP_RELEASE]),
+    timer:sleep(500),
     erlang:halt(0).
 
 %%====================================================================
