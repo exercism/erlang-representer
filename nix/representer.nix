@@ -13,5 +13,17 @@ in buildRebar3 {
 
   beamDeps = [ ];
 
-  patchPhase = "exit 1";
+  patchPhase = ''
+    substituteInPlace src/erl_representer.app.src \
+      --replace "{vsn, \"dev\"}" "{vsn, \"${version}\"}"
+  '';
+
+  buildPhase = ''
+    rebar3 escriptize
+  '';
+
+  installPhase = ''
+    mkdir -p $out/bin
+    install _build/default/bin/erl_representer $out/bin/erl_representer
+  '';
 }
