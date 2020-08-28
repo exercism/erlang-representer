@@ -1,9 +1,17 @@
-{ self, buildRebar3 }:
-buildRebar3 {
+{ pkgs, self, buildRebar3 }:
+
+let
+  version = if self ? shortRev then
+    "${self.lastModifiedDate}-${self.shortRev}"
+  else
+    "${self.lastModifiedDate}-dirty";
+in buildRebar3 {
   name = "erlang-representer";
-  version = "${self.shortRev}-${self.lastModifiedDate}";
+  inherit version;
 
   src = self;
 
   beamDeps = [ ];
+
+  patchPhase = "exit 1";
 }
