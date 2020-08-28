@@ -1,0 +1,14 @@
+{application, erl_representer,
+ [{description, "An escript"},
+  {vsn, "dev"},
+  {registered, []},
+  {applications,
+   [kernel,
+    stdlib
+   ]},
+  {env,[]},
+  {modules, []},
+
+  {licenses, ["Apache 2.0"]},
+  {links, []}
+ ]}.
