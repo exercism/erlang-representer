@@ -1,0 +1,6 @@
+# rebar artifacts
+_build
+
+# nix artifacts
+/result
+/result-*
