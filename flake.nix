@@ -8,11 +8,20 @@
     flake-utils.lib.eachDefaultSystem (system:
       let pkgs = nixpkgs.legacyPackages.${system};
       in rec {
-        packages = flake-utils.lib.flattenTree {
+        packages = let
+          beamPackages = pkgs.beam.packagesWith
+            (pkgs.beam.interpreters.erlangR22_nox.override {
+              enableHipe = false;
+              wxSupport = false;
+              installTargets = [ "install" ];
+            });
+        in flake-utils.lib.flattenTree rec {
           erlang-representer =
-            pkgs.beamPackages.callPackage ./nix/representer.nix {
-              inherit self;
-            };
+            beamPackages.callPackage ./nix/representer.nix { inherit self; };
+
+          erlang-representer-docker = pkgs.callPackage ./nix/docker.nix {
+            inherit self erlang-representer;
+          };
         };
         defaultPackage = packages.erlang-representer;
       });
