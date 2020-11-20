@@ -2,8 +2,6 @@ FROM hexpm/erlang:22.3.4.12-alpine-3.12.0 as ERLANG
 
 FROM ERLANG as BUILDER
 
-label maintainer="timmelzer@gmail.com"
-
 # prepare the build environment
 RUN apk add --no-cache curl; \
   mkdir -p /build; \
@@ -24,6 +22,8 @@ RUN set -ex; \
   rebar3 escriptize
 
 FROM ERLANG as TARGET
+
+label maintainer="timmelzer@gmail.com"
 
 COPY --from=BUILDER /build/_build/default/bin/erl_representer /usr/local/bin/erl_representer
 COPY --from=BUILDER /usr/local/bin/tooling_webserver /usr/local/bin/tooling_webserver
