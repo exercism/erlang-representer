@@ -3,6 +3,7 @@ FROM hexpm/erlang:22.3.4.12-alpine-3.12.0 as ERLANG
 FROM ERLANG as BUILDER
 
 ENV REBAR_VSN=3.14.2
+ENV TOOL_WS_VSN=0.11.0
 
 # prepare the build environment
 RUN apk add --no-cache curl; \
@@ -14,7 +15,7 @@ RUN set -ex; \
   curl -L -o /usr/local/bin/rebar3 \
     https://github.com/erlang/rebar3/releases/download/${REBAR_VSN}/rebar3; \
   curl -L -o /usr/local/bin/tooling_webserver \
-    https://github.com/exercism/tooling-webserver/releases/download/0.11.0/tooling_webserver; \
+    https://github.com/exercism/tooling-webserver/releases/download/${TOOL_WS_VSN}/tooling_webserver; \
   chmod +x /usr/local/bin/*
 
 COPY . /build
