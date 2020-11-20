@@ -1,9 +1,9 @@
 FROM hexpm/erlang:22.3.4.12-alpine-3.12.0 as ERLANG
 
-FROM ERLANG as BUILDER
-
-ENV REBAR_VSN=3.14.2
+ENV REBAR_VSN=3.14.1
 ENV TOOL_WS_VSN=0.11.0
+
+FROM ERLANG as BUILDER
 
 # prepare the build environment
 RUN apk add --no-cache curl; \
