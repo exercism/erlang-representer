@@ -14,7 +14,7 @@ RUN set -ex; \
   curl -L -o /usr/local/bin/rebar3 \
     https://github.com/erlang/rebar3/releases/download/3.14.2/rebar3; \
   curl -L -o /usr/local/bin/tooling_webserver \
-    https://github.com/exercism/tooling-webserver/releases/download/latest/tooling_webserver; \
+    https://github.com/exercism/tooling-webserver/releases/download/0.11.0/tooling_webserver; \
   chmod +x /usr/local/bin/*
 
 COPY . /build
