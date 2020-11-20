@@ -5,16 +5,22 @@
   };
 
   outputs = { self, nixpkgs, flake-utils }:
-    flake-utils.lib.eachDefaultSystem (system:
-      let pkgs = nixpkgs.legacyPackages.${system};
-      in rec {
-        packages = let
+    flake-utils.lib.eachDefaultSystem (
+      system:
+        let
+          pkgs = nixpkgs.legacyPackages.${system};
           beamPackages = pkgs.beam.packagesWith
             pkgs.beam.interpreters.erlangR22_nox;
-        in flake-utils.lib.flattenTree rec {
-          erlang-representer =
-            beamPackages.callPackage ./nix/representer.nix { inherit self; };
-        };
-        defaultPackage = packages.erlang-representer;
-      });
+        in
+          rec {
+            packages = flake-utils.lib.flattenTree rec {
+              erlang-representer =
+                beamPackages.callPackage ./nix/representer.nix { inherit self; };
+            };
+            defaultPackage = packages.erlang-representer;
+            devShell = pkgs.mkShell {
+              buildInputs = with beamPackages; [ rebar3 ] ++ (with pkgs; [ nixpkgs-fmt ]);
+            };
+          }
+    );
 }
