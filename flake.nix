@@ -19,7 +19,7 @@
             };
             defaultPackage = packages.erlang-representer;
             devShell = pkgs.mkShell {
-              buildInputs = with beamPackages; [ rebar3 ] ++ (with pkgs; [ nixpkgs-fmt ]);
+              buildInputs = with beamPackages; [ erlang rebar3 ] ++ (with pkgs; [ nixpkgs-fmt ]);
             };
           }
     );
