@@ -13,19 +13,26 @@
 
 %% escript Entry point
 main([Slug, InPath, OutPath]) ->
-    ok = application:load(?APP), %% We need to load the application to its keys
-                                 %% available later on.
-    set_up_logger(filename:join(OutPath, "representation.out"), 2),
-    ?LOG_INFO("Representer Version: ~s", [version()]),
-    ?LOG_INFO(
-       "OTP-Version: ~s (compiled with ~p)",
-       [erlang:system_info(otp_release), ?OTP_RELEASE]),
-    timer:sleep(500),
-    erlang:halt(0).
+    run(Slug, InPath, OutPath).
 
 %%====================================================================
 %% Internal functions
 %%====================================================================
+
+run(Slug, InPath, OutPath) ->
+    ok = application:load(?APP), %% We need to load the application to its keys
+                                 %% available later on.
+    Verbosity = os:getenv("ANALYZER_VERBOSITY", "1"),
+    set_up_logger(filename:join(OutPath, "representation.out"), Verbosity),
+    ?LOG_INFO("Representer Version: ~s", [version()]),
+    ?LOG_INFO(
+       "OTP-Version: ~s (compiled with ~p)",
+       [erlang:system_info(otp_release), ?OTP_RELEASE]),
+    ?LOG_INFO(
+       "Startup arguments, slug: ~s, inpath: ~s, outpath: ~s",
+       [Slug, InPath, OutPath]),
+    timer:sleep(500),
+    erlang:halt(0).
 
 version() ->
     {ok, Version0} = application:get_key(?APP, vsn),
@@ -50,11 +57,12 @@ format_date(Date0) ->
         "~s-~s-~sT~s:~s:~sZ",
         [Year, Month, Day, Hour, Minute, Seconds])).
 
+-spec set_up_logger(file:name(), string()) -> ok.
 set_up_logger(LogFile, Verbosity) ->
     Level = case Verbosity of
-                0 -> notice;
-                1 -> info;
-                X when is_integer(X), X >= 2 -> debug
+                "0" -> notice;
+                "1" -> info;
+                _ -> debug
             end,
     logger:add_handler(
       file_logger,
