@@ -1,4 +1,4 @@
-FROM hexpm/erlang:22.3.4.12-alpine-3.12.0 as ERLANG
+FROM hexpm/erlang:22.3.4.12-ubuntu-focal-20200703 as ERLANG
 
 ENV REBAR_VSN=3.14.1
 ENV TOOL_WS_VSN=0.11.0
@@ -6,7 +6,7 @@ ENV TOOL_WS_VSN=0.11.0
 FROM ERLANG as BUILDER
 
 # prepare the build environment
-RUN apk add --no-cache curl; \
+RUN apt update; apt install --yes curl; rm -rf /var/lib/apt/lists/*; \
   mkdir -p /build; \
   mkdir -p /tmp
 
