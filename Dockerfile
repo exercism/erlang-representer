@@ -22,13 +22,15 @@ COPY . /build
 
 RUN set -ex; \
   cd /build; \
+  chmod +x run.sh; \
   rebar3 escriptize
 
 FROM ERLANG as TARGET
 
 label maintainer="timmelzer@gmail.com"
 
-COPY --from=BUILDER /build/_build/default/bin/erl_representer /usr/local/bin/run.sh
+COPY --from=BUILDER /build/_build/default/bin/erl_representer /usr/local/bin/erl_representer
+COPY --from=BUILDER /build/run.sh /usr/local/bin/run.sh
 COPY --from=BUILDER /usr/local/bin/tooling_webserver /usr/local/bin/tooling_webserver
 
 ENTRYPOINT [ "/usr/local/bin/run.sh" ]
