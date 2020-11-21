@@ -12,6 +12,7 @@
 %%====================================================================
 
 %% escript Entry point
+-spec main(list(string())) -> no_return().
 main([Slug, InPath, OutPath]) ->
     run(Slug, InPath, OutPath).
 
