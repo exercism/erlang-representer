@@ -14,7 +14,11 @@
 %% escript Entry point
 -spec main(list(string())) -> no_return().
 main([Slug, InPath, OutPath]) ->
-    run(Slug, InPath, OutPath).
+    run(Slug, InPath, OutPath);
+main(Args) when is_list(Args) ->
+    ?LOG_ERROR("Expected 3 arguments, got ~p", [length(Args)]),
+    timer:sleep(500),
+    erlang:halt(1).
 
 %%====================================================================
 %% Internal functions
