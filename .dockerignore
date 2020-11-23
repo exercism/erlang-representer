@@ -1,0 +1,6 @@
+.git
+_build
+nix
+Dockerfile
+flake.lock
+flake.nix
