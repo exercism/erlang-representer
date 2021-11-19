@@ -7,3 +7,4 @@ flake.nix
 .appends
 .github
 .gitignore
+.gitattributes
