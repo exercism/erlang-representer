@@ -8,3 +8,4 @@ flake.nix
 .github
 .gitignore
 .gitattributes
+.dockerignore
