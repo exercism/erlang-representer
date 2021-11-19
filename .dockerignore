@@ -4,3 +4,4 @@ nix
 Dockerfile
 flake.lock
 flake.nix
+.appends
