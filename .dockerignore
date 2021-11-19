@@ -5,3 +5,4 @@ Dockerfile
 flake.lock
 flake.nix
 .appends
+.github
