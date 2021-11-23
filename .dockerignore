@@ -4,3 +4,8 @@ nix
 Dockerfile
 flake.lock
 flake.nix
+.appends
+.github
+.gitignore
+.gitattributes
+.dockerignore
