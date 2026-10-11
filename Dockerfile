@@ -1,4 +1,4 @@
-FROM hexpm/erlang:22.3.4.12-ubuntu-focal-20200703 as ERLANG
+FROM hexpm/erlang:29.0-rc3-ubuntu-focal-20250404 as ERLANG
 
 ENV REBAR_VSN=3.14.1
 ENV TOOL_WS_VSN=0.11.0
